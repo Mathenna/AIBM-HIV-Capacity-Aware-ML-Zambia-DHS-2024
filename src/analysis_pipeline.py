@@ -2,10 +2,10 @@
 """Publication-ready Zambia DHS 2024 analysis orchestrator.
 
 Run order:
-1. core primary 60/20/20 model-development analysis;
-2. repeated grouped capacity selection on the frozen 80% development sample;
-3. publication extensions (outer stability, domain analyses, calibration diagnostics);
-4. locked-result verification.
+1. reproduce the frozen selected primary model;
+2. select operating capacity using repeated grouped development validation;
+3. reproduce calibration, outer-fold subgroup and domain analyses;
+4. verify all locked aggregate publication results.
 
 DHS microdata are never written to the repository. They must be supplied locally
 under authorised DHS access.
@@ -36,11 +36,10 @@ def run(cmd: list[str]) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run the publication reproducibility pipeline")
+    parser = argparse.ArgumentParser(description="Run the audited publication reproducibility pipeline")
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
-    parser.add_argument("--full-retune", action="store_true", help="Run the complete candidate-model grid search/SHAP core pipeline instead of the fast locked-primary reproduction.")
-    parser.add_argument("--full-stability", action="store_true", help="Refit all comparator models across the five stability folds (slower).")
-    parser.add_argument("--include-stacked-reconstruction", action="store_true", help="Run the best-effort stacked-domain reconstruction; excluded from locked verification because the exact original stacked implementation was not recovered.")
+    parser.add_argument("--full-stability", action="store_true", help="Also refit all comparator model families across the five stability folds (slower).")
+    parser.add_argument("--include-stacked-reconstruction", action="store_true", help="Run the best-effort stacked-domain reconstruction. It is not part of locked-result verification because the exact historical implementation was not recovered.")
     parser.add_argument("--skip-core", action="store_true")
     parser.add_argument("--skip-capacity", action="store_true")
     parser.add_argument("--skip-extensions", action="store_true")
@@ -61,10 +60,7 @@ def main() -> None:
         raise FileNotFoundError("Missing authorised DHS file(s):\n- " + "\n- ".join(missing))
 
     if not args.skip_core:
-        if args.full_retune:
-            run([sys.executable, str(SRC_ROOT / "core_model_pipeline.py"), "--ir", str(ir), "--mr", str(mr), "--ar", str(ar), "--output", str(core_out)])
-        else:
-            run([sys.executable, str(SRC_ROOT / "publication_primary_run.py"), "--config", str(args.config), "--output", str(core_out)])
+        run([sys.executable, str(SRC_ROOT / "publication_primary_run.py"), "--config", str(args.config), "--output", str(core_out)])
     if not args.skip_capacity:
         run([sys.executable, str(SRC_ROOT / "capacity_selection.py"), "--config", str(args.config), "--core-output", str(core_out), "--output", str(cap_out)])
     if not args.skip_extensions:
@@ -79,7 +75,7 @@ def main() -> None:
 
     manifest = {
         "status": "completed",
-        "config": args.config.name,
+        "config": str(args.config.relative_to(PROJECT_ROOT)) if args.config.is_relative_to(PROJECT_ROOT) else str(args.config),
         "analytical_contract": "capacity selected on 80% development; frozen primary test probabilities retained; no 80% final-test refit",
         "primary_seed": cfg["random_states"]["primary_split_and_tuning"],
         "five_fold_stability_seed": cfg["random_states"]["five_fold_model_stability"],
