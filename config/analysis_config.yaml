@@ -1,0 +1,193 @@
+project:
+  title: Zambia DHS 2024 HIV biomarker-status prediction and capacity-aware testing
+    prioritisation
+  version: publication-reproducibility-v1
+random_states:
+  primary_split_and_tuning: 24101765
+  five_fold_model_stability: 24101766
+  repeated_capacity_validation:
+  - 24101765
+  - 24101766
+  - 24101767
+  - 24101768
+  - 24101769
+  - 24101770
+  - 24101771
+  - 24101772
+  - 24101773
+  - 24101774
+paths:
+  ir_path: data/ZMIR81FL.dta
+  mr_path: data/ZMMR81FL.dta
+  ar_path: data/ZMAR81FL.dta
+  output_dir: results
+outcome:
+  variable: HIV03
+  negative_codes:
+  - 0
+  positive_codes:
+  - 1
+  - 2
+  - 3
+  excluded_codes:
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+age_first_sex:
+  women_variable: V531
+  men_variable: MV531
+  special_codes:
+    0: Not had sex
+    97: Inconsistent
+  treatment: Retain status categorically; set numeric age missing before fold-specific
+    imputation
+split:
+  method: StratifiedGroupKFold
+  n_splits: 5
+  grouping_variable: DHS sampling cluster
+  joint_stratification:
+  - HIV outcome
+  - sex
+  - residence
+  - age group
+  training_folds:
+  - 0
+  - 1
+  - 2
+  validation_fold: 3
+  test_fold: 4
+  target_ratio:
+  - 0.6
+  - 0.2
+  - 0.2
+  household_overlap_allowed: false
+features:
+  primary_raw_predictors: 17
+  domains:
+    demographic:
+    - age
+    - sex
+    structural_socioeconomic:
+    - residence
+    - region
+    - education
+    - wealth
+    behavioural_relationship:
+    - marital_status
+    - age_first_sex
+    - sexual_debut_status
+    - condom_last_sex
+    - sti_last12m
+    - partners_last12m
+    - lifetime_partners
+    - circumcision_status
+    health_testing_history:
+    - ever_tested_hiv
+    - months_since_hiv_test
+    - received_hiv_result
+models:
+  tuning_method: GridSearchCV
+  tuning_folds: 3
+  primary_refit_metric: PR-AUC
+  candidates:
+    logistic_regression:
+      C: [0.1, 1.0]
+      class_weight: [null, balanced]
+    class_weighted_random_forest:
+      n_estimators: 120
+      max_depth: [8, 12]
+      min_samples_leaf: [5, 15]
+      max_features: sqrt
+      class_weight: balanced_subsample
+    gradient_boosting:
+      n_estimators: [150, 250]
+      max_depth: [1, 2]
+      learning_rate: 0.04
+      min_samples_leaf: 10
+    subsampled_gradient_boosting:
+      n_estimators: [150, 250]
+      max_depth: [1, 2]
+      learning_rate: 0.04
+      subsample: 0.7
+    weighted_xgboost:
+      n_estimators: [250, 400]
+      max_depth: [2, 3]
+      min_child_weight: 5
+      learning_rate: 0.04
+      subsample: 0.8
+      colsample_bytree: 0.8
+      reg_lambda: 5.0
+      reg_alpha: 0.05
+      tree_method: hist
+      scale_pos_weight: negative_to_positive_ratio_within_current_training_subset
+      primary_training_value: 10.2999
+      development_80pct_class_ratio_reference: 10.394
+      development_80pct_class_ratio_reference_note: Reference for development resampling; not used for the frozen primary final-test model.
+calibration:
+  method: Platt scaling
+  source: grouped out-of-fold training predictions
+  validation_or_test_labels_used_to_fit_calibrator: false
+model_stability:
+  method: StratifiedGroupKFold
+  n_splits: 5
+  shuffle: true
+  random_state: 24101766
+  grouping_variable: DHS sampling cluster
+  retune_inside_outer_folds: false
+  metrics: [PR-AUC, ROC-AUC]
+  xgboost_scale_pos_weight_policy_for_locked_table: fixed at primary-training selected value 10.2999
+  note: This reproduces the locked repeated-stability table; the outer partition seed is 24101766 while fitted model random_state remains the primary seed 24101765.
+capacity_selection:
+  final_test_partition_frozen_before_selection: true
+  repeats: 10
+  development_split_method: 4-fold StratifiedGroupKFold; 3 folds fit / 1 fold validate
+  exact_capacity_grid:
+    start: 0.01
+    stop: 0.5
+    step: 0.001
+  candidate_count: 491
+  primary_objective: mean F2
+  tie_break: lower workload
+  selected_nominal_capacity: 0.243
+  one_standard_error_capacity: 0.213
+  fixed_threshold_sensitivity:
+    resolution: 0.0001
+    selected_threshold: 0.1218
+  held_out_test_boundary_at_selected_capacity: 0.1234
+uncertainty:
+  cluster_bootstrap_iterations: 1000
+  subgroup_recall_interval: exact Clopper-Pearson
+shap:
+  explainer: TreeExplainer
+  feature_perturbation: interventional
+  background_records: 200
+  model_output: raw
+  explained_partition: held-out test set
+  explained_records: 5016
+  calibrated_probability_decomposed: false
+  aggregation: signed encoded features -> signed raw predictor -> signed domain per respondent -> absolute global summaries
+software:
+  python: 3.13.5
+  pandas: 2.2.3
+  numpy: 2.3.5
+  scipy: 1.17.0
+  scikit_learn: 1.8.0
+  xgboost: 3.1.3
+  shap: 0.50.0
+  matplotlib: 3.10.8
+  joblib: 1.5.3
+  pyyaml: 6.0.3
+publication_contract:
+  capacity_selection_data: primary training + validation (80% development sample)
+  final_test_probabilities: frozen primary model selected/calibrated from primary training and validation design
+  refit_on_full_80pct_before_final_test: false
+  reason: Preserves the locked final-thesis/manuscript final-test evidence and prevents two conflicting final-test estimands.
+outer_subgroup_validation:
+  method: 5-fold StratifiedGroupKFold over the complete analytic cohort
+  random_state: 24101765
+  capacity: 0.243
+  scale_pos_weight: recomputed within each outer training fold
+  reported_pooled_groups: [Overall, 15–24, Male, Rural]
