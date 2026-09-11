@@ -1,0 +1,50 @@
+# Restricted DHS and raw data
+/data/raw/
+/raw_data/
+/dhs_data/
+*.dta
+*.DTA
+*.sav
+*.SAV
+*.zsav
+*.por
+*.frq
+*.FRQ
+*.frw
+*.FRW
+*.DCT
+*.dct
+*.DO
+*.do
+*.map
+*.MAP
+*.dat
+*.DAT
+
+# Secrets / credentials
+.env
+.env.*
+*.key
+*.pem
+credentials*
+secrets*
+*.token
+
+# Local paths and caches
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Temporary / generated local artefacts
+*.tmp
+*.log
+~$*
