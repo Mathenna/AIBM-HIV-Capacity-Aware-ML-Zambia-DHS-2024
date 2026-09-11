@@ -1,25 +1,45 @@
-# Restricted DHS and raw data
-/data/raw/
-/raw_data/
-/dhs_data/
-*.dta
-*.DTA
-*.sav
-*.SAV
-*.zsav
-*.por
-*.frq
-*.FRQ
-*.frw
-*.FRW
-*.DCT
-*.dct
-*.DO
-*.do
-*.map
-*.MAP
-*.dat
-*.DAT
+# Restricted DHS source files / derived respondent-level files
+/data/*.dta
+/data/*.DTA
+/data/*.sav
+/data/*.SAV
+/data/*.zsav
+/data/*.por
+/data/*.frq
+/data/*.FRQ
+/data/*.frw
+/data/*.FRW
+/data/*.dct
+/data/*.DCT
+/data/*.do
+/data/*.DO
+/data/*.map
+/data/*.MAP
+/data/*.dat
+/data/*.DAT
+
+# Never commit local/raw data directories
+data/raw/
+raw_data/
+dhs_data/
+restricted_data/
+
+# Pipeline-generated respondent-level / model artefacts
+results/core/analysis/split_assignments.csv
+results/core/analysis/test_probabilities_calibrated.npy
+results/core/analysis/test_probabilities_base.npy
+results/core/analysis/cluster_bootstrap_replicates.csv
+results/capacity_selection/*_long.csv
+results/core/models/
+results/**/models/
+*.joblib
+*.pkl
+*.pickle
+*.npy
+
+# Full local results are regenerated; publication-safe aggregate outputs are
+# copied selectively into the repository outputs/ directory after audit.
+results/
 
 # Secrets / credentials
 .env
@@ -30,21 +50,19 @@ credentials*
 secrets*
 *.token
 
-# Local paths and caches
+# Python/editor/cache
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
 .venv/
 venv/
 env/
+.vscode/
+.idea/
 .DS_Store
 Thumbs.db
 
-# IDE
-.vscode/
-.idea/
-
-# Temporary / generated local artefacts
+# Temporary files
 *.tmp
 *.log
 ~$*
