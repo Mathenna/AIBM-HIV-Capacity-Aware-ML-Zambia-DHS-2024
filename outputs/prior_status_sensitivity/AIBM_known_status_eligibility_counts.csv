@@ -1,0 +1,9 @@
+prior_test_result,biomarker_negative,biomarker_positive,total
+Missing_or_not_applicable,5530,174,5704
+Positive,82,1273,1355
+Negative,17556,774,18330
+Indeterminate,3,6,9
+Declined_to_answer,25,8,33
+Did_not_receive_result,50,10,60
+Total,23246,2245,25491
+Restricted_excluding_prior_positive,23164,972,24136
