@@ -34,11 +34,11 @@ Subgroup auditing showed materially lower recall among some groups, particularly
 
 This repository and manuscript concern **retrospective HIV biomarker-status prediction**. The model is **not**:
 
-- an HIV diagnostic test,
-- a prospective HIV-acquisition risk model,
-- a clinical decision-support system,
-- a substitute for routine or universal access to testing,
-- evidence of causal effects from SHAP attributions,
+- an HIV diagnostic test;
+- a prospective HIV-acquisition risk model;
+- a clinical decision-support system;
+- a substitute for routine or universal access to testing;
+- evidence that SHAP attributions are causal effects;
 - externally or prospectively validated for deployment.
 
 ## Data source and access
@@ -47,30 +47,72 @@ The underlying microdata are from the **Zambia Demographic and Health Survey 202
 
 **Raw DHS microdata are not included in this repository and must not be redistributed.** Researchers wishing to reproduce the study must independently request access from The DHS Program and comply with its terms of use.
 
-This repository intentionally excludes all respondent-level IR, MR and AR source files and related DHS distribution files.
+This repository intentionally excludes respondent-level IR, MR and AR source files and related restricted DHS distribution files.
 
-See [`docs/data_access.md`](docs/data_access.md) for details.
+See [`docs/data_access.md`](docs/data_access.md).
 
 ## Analytical design
 
-Key elements of the primary workflow include:
+Key elements include:
 
 - codebook-compliant harmonisation of women's and men's DHS variables;
 - 17 primary raw predictors grouped into four analytical domains;
 - cluster-exclusive 60/20/20 training/validation/test partitioning;
 - grouped hyperparameter tuning using PR-AUC as the primary refit metric;
 - class-weighted candidate models for the imbalanced outcome;
-- out-of-fold Platt calibration for the selected weighted XGBoost model;
-- repeated cluster-grouped capacity validation across exact nominal capacities from 1.0% to 50.0% in 0.1-percentage-point increments;
-- F2 as the prespecified primary capacity-selection criterion;
-- subgroup audits by sex, residence, age, wealth, region and education;
-- cluster-bootstrap uncertainty for final test metrics;
-- TreeSHAP with interventional feature perturbation on the uncalibrated XGBoost raw-margin scale;
+- grouped out-of-fold Platt calibration for the selected weighted XGBoost model;
+- repeated cluster-grouped capacity validation from 1.0% to 50.0% in 0.1-percentage-point increments;
+- F2 as the primary capacity-selection criterion;
+- subgroup auditing by sex, residence, age, wealth, region and education;
+- cluster-aware uncertainty and outer-fold subgroup stability analyses;
+- SHAP interpreted as post-hoc attribution rather than causal evidence;
 - a prior-positive self-report eligibility sensitivity analysis reported separately.
+
+## Verified publication code
+
+The recovered final-analysis archive was audited against the corrected thesis and rerun against the authorised local Zambia DHS files. A conflict in the recovered capacity script was identified: it could refit the model on the full 80% development sample before the final test and therefore generate a second, inconsistent final-test estimand.
+
+The public publication contract resolves that conflict explicitly:
+
+> The combined training + validation sample is used for repeated **capacity selection**, but the selected capacity is applied to the **frozen primary final-test probabilities**. The model is not refitted on the full 80% development sample for final-test evaluation.
+
+Under this contract the code reproduces the locked reported result: **1,218 selected; TP/FP/FN/TN = 281/937/167/3,631; recall 0.6272; precision 0.2307; boundary 0.1234**.
+
+The release includes an automated verifier covering **80 locked aggregate checks**. All checks passed in the audit run used to prepare the repository.
+
+Code: [`src/`](src/)  
+Configuration: [`config/analysis_config.yaml`](config/analysis_config.yaml)  
+Reproducibility notes: [`docs/REPRODUCIBILITY_NOTES.md`](docs/REPRODUCIBILITY_NOTES.md)  
+Audited aggregate snapshots: [`outputs/reproducibility/`](outputs/reproducibility/)
+
+## Reproduction
+
+After receiving independent DHS authorisation, place the following files locally under `data/`:
+
+```text
+data/ZMIR81FL.dta
+data/ZMMR81FL.dta
+data/ZMAR81FL.dta
+```
+
+Then, from the repository root:
+
+```bash
+pip install -r requirements.txt
+python src/analysis_pipeline.py
+```
+
+A successful run ends with:
+
+```text
+All locked-result checks passed.
+```
+
+DHS microdata, per-record probability arrays, split assignments, fitted model objects and other respondent-level/model-state artefacts are excluded by `.gitignore`.
 
 ## Software environment
 
-The thesis-recorded final analytical environment was:
+The final analytical environment was:
 
 - Python 3.13.5
 - pandas 2.2.3
@@ -85,30 +127,9 @@ The thesis-recorded final analytical environment was:
 
 The primary random state was **24101765**. Five-fold paired model stability used `random_state=24101766`, and repeated capacity validation used seeds **24101765–24101774**.
 
-## Repository contents
+## Recovered-source limitation
 
-The repository contains only materials that are safe to redistribute, including:
-
-- documentation and environment specifications;
-- aggregate analysis outputs;
-- prior-status sensitivity outputs;
-- publication figures;
-- reproducibility notes.
-
-The final thesis reproducibility manifest references `analysis_pipeline.py`, `analysis_config.yaml`, complete grid-search outputs, bootstrap replicates and additional result tables. A subsequently supplied archive (`thesis_claude.zip`) was audited and found to contain an **earlier pre-correction pipeline** rather than the final analysis. It also contains restricted DHS `.dta` files and therefore has not been uploaded wholesale.
-
-See [`docs/thesis_claude_archive_audit.md`](docs/thesis_claude_archive_audit.md) for the detailed comparison.
-
-Accordingly, this repository should not yet be described as a fully rerunnable end-to-end implementation of the final manuscript. Final analysis code should only be deposited once it has been verified to reproduce the corrected thesis results.
-
-## Reproduction
-
-1. Request and obtain authorised ZDHS 2024 data access from The DHS Program.
-2. Keep all DHS microdata outside the Git repository.
-3. Reconstruct the IR/MR/AR source paths locally.
-4. Use the software versions in `requirements.txt` / `environment/environment_notes.md`.
-5. Review `docs/reproducibility.md` for design and seed controls.
-6. Use aggregate outputs in `outputs/` to cross-check publication results.
+The exact historical code that generated the exploratory stacked-domain sensitivity was not present in the recovered final-analysis ZIP. A best-effort reconstruction is available as an optional analysis, but it is **not** included in locked-result verification. The repository does not fabricate the missing implementation. See [`docs/REPRODUCIBILITY_NOTES.md`](docs/REPRODUCIBILITY_NOTES.md).
 
 ## Ethics and responsible use
 
@@ -118,8 +139,8 @@ The analytical outputs should not be used to deny routine HIV testing or to make
 
 ## Citation
 
-Citation metadata are provided in [`CITATION.cff`](CITATION.cff). Publication details and DOI will be updated after journal publication / archival release.
+Citation metadata are provided in [`CITATION.cff`](CITATION.cff). Publication details and archival DOI will be updated after the journal/Zenodo release.
 
 ## Repository status
 
-**Pre-publication reproducibility release.** The manuscript has been prepared for submission to *AI Biology & Medicine*. Repository contents may be updated before the archival release used for the final DOI.
+**Pre-publication reproducibility release.** The primary publication analysis is now code-verified against the locked corrected thesis/manuscript results. The repository may receive final documentation and archival metadata updates before the Zenodo release used for the permanent DOI.
