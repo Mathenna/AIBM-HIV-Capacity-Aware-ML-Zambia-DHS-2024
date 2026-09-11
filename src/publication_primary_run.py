@@ -2,9 +2,9 @@
 """Fast reproduction of the locked primary publication model.
 
 This script uses the hyperparameters selected by the grouped grid search reported in
-the final thesis. It is intended for rapid verification of the publication's frozen
-primary model. Use ``core_model_pipeline.py`` when the complete candidate-model grid
-search, SHAP, bootstrap and all diagnostic artefacts need to be regenerated.
+the final thesis. It is intended for reproducibility verification of the publication's frozen
+primary model. The historical full-retuning/SHAP driver is not part of the audited
+public release; see ``docs/REPRODUCIBILITY_NOTES.md``.
 """
 from __future__ import annotations
 
@@ -19,7 +19,7 @@ from sklearn.model_selection import StratifiedGroupKFold
 from sklearn.pipeline import Pipeline
 from xgboost import XGBClassifier
 
-import core_model_pipeline as cp
+import analysis_common as cp
 
 SRC_ROOT = Path(__file__).resolve().parent
 PROJECT_ROOT = SRC_ROOT.parent
