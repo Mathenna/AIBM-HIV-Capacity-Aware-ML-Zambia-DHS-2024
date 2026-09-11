@@ -95,9 +95,11 @@ The repository contains only materials that are safe to redistribute, including:
 - publication figures;
 - reproducibility notes.
 
-The original thesis reproducibility manifest also references `analysis_pipeline.py`, `analysis_config.yaml`, complete grid-search outputs, bootstrap replicates and additional result tables. Those exact artefacts are not currently available in this chat session and are **not being reconstructed or fabricated**. They should be deposited later only from the original analysis directory after checking for restricted paths or respondent-level content.
+The final thesis reproducibility manifest references `analysis_pipeline.py`, `analysis_config.yaml`, complete grid-search outputs, bootstrap replicates and additional result tables. A subsequently supplied archive (`thesis_claude.zip`) was audited and found to contain an **earlier pre-correction pipeline** rather than the final analysis. It also contains restricted DHS `.dta` files and therefore has not been uploaded wholesale.
 
-Accordingly, this repository should not yet be described as a fully rerunnable end-to-end pipeline.
+See [`docs/thesis_claude_archive_audit.md`](docs/thesis_claude_archive_audit.md) for the detailed comparison.
+
+Accordingly, this repository should not yet be described as a fully rerunnable end-to-end implementation of the final manuscript. Final analysis code should only be deposited once it has been verified to reproduce the corrected thesis results.
 
 ## Reproduction
 
