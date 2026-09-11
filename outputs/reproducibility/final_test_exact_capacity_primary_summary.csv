@@ -1,0 +1,2 @@
+capacity,selected,boundary,tp,fp,fn,tn,recall,precision,specificity,youden_j,f1,f2,test_n,test_positive,selected_capacity_from_repeated_validation,final_test_probability_source
+0.243,1218,0.12335501521052891,281,937,167,3631,0.6272321428571429,0.23070607553366174,0.794877408056042,0.4221095509131849,0.33733493397358943,0.46677740863787376,5016,448,0.243,frozen primary 60/20/20 model; no 80% development refit
