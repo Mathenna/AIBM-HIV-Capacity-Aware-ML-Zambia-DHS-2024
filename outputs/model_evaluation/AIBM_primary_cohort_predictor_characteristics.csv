@@ -1,0 +1,18 @@
+Predictor,Domain,Analytic-cohort distribution,Missing/special-code handling
+Age,Demographic,Mean 29.22 (SD 10.89); median 27 [IQR 20-37]; range 15-59,0 missing
+Sex,Demographic,"Female 13,444 (52.7%); Male 12,047 (47.3%)",File-origin field; 0 missing
+Residence,Structural/socioeconomic,"Urban 10,625 (41.7%); Rural 14,866 (58.3%)",0 missing
+Region,Structural/socioeconomic,"Central 3,133 (12.3%); Copperbelt 2,735 (10.7%); Eastern 2,998 (11.8%); Luapula 2,280 (8.9%); Lusaka 3,028 (11.9%); Muchinga 1,819 (7.1%); Northern 2,341 (9.2%); North Western 2,157 (8.5%); Southern 2,975 (11.7%); Western 2,025 (7.9%)",0 missing
+Education,Structural/socioeconomic,"No education 1,471 (5.8%); Primary 10,519 (41.3%); Secondary 11,641 (45.7%); Higher 1,860 (7.3%)",0 missing
+Wealth,Structural/socioeconomic,"Poorest 5,210 (20.4%); Poorer 5,290 (20.8%); Middle 5,330 (20.9%); Richer 4,868 (19.1%); Richest 4,793 (18.8%)",0 missing
+Marital status,Behavioural/relationship,"Never in union 9,774 (38.3%); Married 13,235 (51.9%); Living with partner 122 (0.5%); Widowed 385 (1.5%); Divorced 1,362 (5.3%); Separated 613 (2.4%)",0 missing
+Age at first sex,Behavioural/relationship,"Among 21,967 records with a reported numeric age: mean 16.61 (SD 2.99); median 16 [IQR 15-18]; range 8-45","3,524 set missing numerically: code 0 = 3,138; code 97 = 386"
+Sexual-debut status,Behavioural/relationship,"Reported age 21,967 (86.2%); Not had sex 3,138 (12.3%); Inconsistent 386 (1.5%)",Status retained categorically
+Condom at last sex,Behavioural/relationship,"No 16,305 (64.0%); Yes 3,673 (14.4%); Not reported/not applicable 5,513 (21.6%)",Structural/not-reported category retained
+STI in previous 12 months,Behavioural/relationship,"No 24,125 (94.6%); Yes 1,351 (5.3%); Unknown 15 (0.1%)",0 missing
+Partners in previous 12 months,Behavioural/relationship,"Valid n=24,756: median 1 [IQR 1-1]; range 0-2",735 (2.9%) missing after codes 98/99 or raw missing
+Lifetime partners,Behavioural/relationship,"Valid n=22,251: median 3 [IQR 2-5]; range 1-95","3,240 (12.7%) missing after codes 98/99 or raw missing"
+Circumcision status,Behavioural/relationship,"Female not applicable 13,444 (52.7%); Male no 7,521 (29.5%); Male yes 4,495 (17.6%); Male unknown 31 (0.1%)",Female not-applicable retained explicitly
+Ever tested for HIV,Health/testing history,"No 5,360 (21.0%); Yes 20,131 (79.0%)",0 missing
+Months since most recent HIV test,Health/testing history,"Valid n=18,560: median 6 [IQR 2-20]; range 0-96","6,931 (27.2%) missing after 98/99 or raw missing; code 96 retained as capped value"
+Received most recent test result,Health/testing history,"No 347 (1.4%); Yes 19,750 (77.5%); Not tested/not reported 5,394 (21.2%)",Structural/not-reported category retained
