@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the associated manuscript and this software/reproducibility package."
+title: "AIBM HIV Capacity-Aware ML Zambia DHS 2024 Reproducibility Package"
+type: software
+authors:
+  - family-names: "Karunanethe"
+    given-names: "Mathenna A/P"
+  - family-names: "Doraisamy"
+    given-names: "Vaithegy"
+  - family-names: "Lekshmikanth"
+    given-names: "Sudersen"
+repository-code: "https://github.com/Mathenna/AIBM-HIV-Capacity-Aware-ML-Zambia-DHS-2024"
+license: "MIT"
+version: "0.1.0"
+date-released: "2026-09-11"
+keywords:
+  - HIV
+  - machine learning
+  - XGBoost
+  - calibration
+  - subgroup audit
+  - Zambia DHS 2024
+abstract: >-
+  Reproducibility and publication-support materials for a cluster-aware,
+  calibrated machine-learning workflow for retrospective HIV biomarker-status
+  prediction and capacity-constrained prioritisation using Zambia DHS 2024 data.
