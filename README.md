@@ -83,7 +83,9 @@ The release includes an automated verifier covering **80 locked aggregate checks
 Code: [`src/`](src/)  
 Configuration: [`config/analysis_config.yaml`](config/analysis_config.yaml)  
 Reproducibility notes: [`docs/REPRODUCIBILITY_NOTES.md`](docs/REPRODUCIBILITY_NOTES.md)  
-Audited aggregate snapshots: [`outputs/reproducibility/`](outputs/reproducibility/)
+Final-analysis archive audit: [`docs/final_analysis_archive_audit.md`](docs/final_analysis_archive_audit.md)  
+Audited aggregate snapshots: [`outputs/reproducibility/`](outputs/reproducibility/)  
+Release/Zenodo checklist: [`docs/RELEASE_CHECKLIST.md`](docs/RELEASE_CHECKLIST.md)
 
 ## Reproduction
 
@@ -143,4 +145,4 @@ Citation metadata are provided in [`CITATION.cff`](CITATION.cff). Publication de
 
 ## Repository status
 
-**Pre-publication reproducibility release.** The primary publication analysis is now code-verified against the locked corrected thesis/manuscript results. The repository may receive final documentation and archival metadata updates before the Zenodo release used for the permanent DOI.
+**Pre-publication reproducibility release.** The primary publication analysis is code-verified against the locked corrected thesis/manuscript results. The remaining archival steps are final author review, GitHub `v1.0.0` release creation, Zenodo DOI assignment, and insertion of the permanent DOI into the manuscript and repository metadata.
