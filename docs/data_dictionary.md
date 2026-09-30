@@ -1,3 +1,5 @@
+> Historical document retained for provenance. Statements below describe the supplied original release, not validation of the post-review revision. The new reproduction passed 28 of 80 historical locked checks. Consult the root REVISION_README.md and TEST_STATUS.md for current status.
+
 # Primary predictor dictionary
 
 The primary specification used **17 harmonised raw predictors** organised into four analytical domains.

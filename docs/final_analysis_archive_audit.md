@@ -1,3 +1,5 @@
+> Historical document retained for provenance. Statements below describe the supplied original release, not validation of the post-review revision. The new reproduction passed 28 of 80 historical locked checks. Consult the root REVISION_README.md and TEST_STATUS.md for current status.
+
 # Audit of `FINAL_ANALYSIS_CODE_ZAMBIA_DHS_2024(1).zip`
 
 ## Purpose

@@ -1,3 +1,5 @@
+> Historical document retained for provenance. Statements below describe the supplied original release, not validation of the post-review revision. The new reproduction passed 28 of 80 historical locked checks. Consult the root REVISION_README.md and TEST_STATUS.md for current status.
+
 # Publication / Zenodo release checklist
 
 Use this checklist before creating the archival software release associated with the manuscript.

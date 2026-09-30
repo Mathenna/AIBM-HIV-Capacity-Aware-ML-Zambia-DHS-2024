@@ -1,3 +1,5 @@
+> Historical document retained for provenance. Statements below describe the supplied original release, not validation of the post-review revision. The new reproduction passed 28 of 80 historical locked checks. Consult the root REVISION_README.md and TEST_STATUS.md for current status.
+
 # Aggregate outputs
 
 Only aggregate, non-identifiable outputs are stored here. Raw DHS microdata, split assignments, per-record probability arrays and fitted model objects are intentionally excluded.

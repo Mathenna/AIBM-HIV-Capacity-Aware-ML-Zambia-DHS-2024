@@ -66,3 +66,7 @@ Thumbs.db
 *.tmp
 *.log
 ~$*
+
+# Private revision checkpoints
+*.npz
+private_checkpoints/
